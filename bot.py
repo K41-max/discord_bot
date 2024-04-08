@@ -32,12 +32,12 @@ async def send_message():
 
             if 'main' in data:
                 main_section = data['main']
-                if main_section:
+                if main_section and len(main_section) > 0:
                     current_number = int(main_section[0]['number'])
 
                     if last_number is not None and current_number != last_number:
-                        info = main_section[0]['info']
-                        if not info:  # infoが空の場合
+                        info = main_section[0].get('info')  # info キーが存在しない場合は None を返す
+                        if info is None:  # infoがNoneの場合
                             info = "null"
 
                         await channel.send(f"\n\nnumber:{current_number}\nname:{main_section[0]['name']}\nmessage:{main_section[0]['message']}\ninfo:{info}\n")
