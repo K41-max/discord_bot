@@ -22,7 +22,7 @@ def acquire_lock():
         # 既にロックファイルが存在する場合は別のプロセスが起動している可能性があるので終了する
         if os.path.exists(LOCK_FILE_PATH):
             print("Another instance is already running. Exiting.")
-            sys.exit(1)
+            sys.exit(0)
         
         # ロックファイルを作成してロックを取得する
         with open(LOCK_FILE_PATH, "w") as lockfile:
@@ -75,4 +75,19 @@ async def send_message():
                     last_number = current_number  # メッセージが送信されたら last_number を更新
 
             else:
-                print
+                print("No 'main' section found in the response.")
+
+            await asyncio.sleep(1)
+
+    await main()
+
+# ボットが起動したときのイベントハンドラ
+@client.event
+async def on_ready():
+    print(f'We have logged in as {client.user}')
+
+    # シングルトンのためのロックを解放する
+    release_lock()
+
+# Discordに接続する
+client.run(discord_token)
