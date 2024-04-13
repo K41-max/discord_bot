@@ -25,7 +25,7 @@ async def send_message():
     async def main():
         username = 'admin'
         password = 'gafa074256Pass'
-        last_number = None
+        last_message_content = None  # 直前のメッセージの内容を保持する変数を追加
 
         while True:
             data = await get_data(username, password)
@@ -33,16 +33,14 @@ async def send_message():
             if 'main' in data:
                 main_section = data['main']
                 if main_section and len(main_section) > 0:
-                    current_number = int(main_section[0]['number'])
+                    message_content = f"number:{main_section[0]['number']}\nname:{main_section[0]['name']}\nmessage:{main_section[0]['message']}\ninfo:{main_section[0].get('info', 'null')}\n"
 
-                    if last_number is not None and current_number == last_number:
+                    if message_content == last_message_content:
                         await asyncio.sleep(1)
-                        continue  # 数字が変わらない場合はループを続行してデータを再取得
+                        continue  # 直前のメッセージと同じ内容の場合はループを続行してデータを再取得
 
-                    info = main_section[0].get('info', 'null')  # info キーが存在しない場合は 'null' を返す
-                    await channel.send(f"\n\nnumber:{current_number}\nname:{main_section[0]['name']}\nmessage:{main_section[0]['message']}\ninfo:{info}\n")
-
-                    last_number = current_number  # メッセージが送信されたら last_number を更新
+                    await channel.send(message_content)
+                    last_message_content = message_content  # 送信したメッセージの内容を更新
 
             else:
                 print("No 'main' section found in the response.")
