@@ -6,7 +6,6 @@ import base64
 import json
 import time
 import sys
-import psutil
 
 # クライアントを作成
 client = discord.Client(intents=discord.Intents.default())
@@ -81,10 +80,13 @@ async def send_message():
 
     await main()
 
-# ボットが起動したときのイベントハンドラ
+# Discordに接続する
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
+
+    # メッセージを送信する
+    await send_message()
 
     # シングルトンのためのロックを解放する
     release_lock()
