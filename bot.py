@@ -75,19 +75,4 @@ async def send_message():
                     last_number = current_number  # メッセージが送信されたら last_number を更新
 
             else:
-                print("No 'main' section found in the response.")
-
-            await asyncio.sleep(1)
-
-    await main()
-
-# ボットが起動したときのイベントハンドラ
-@client.event
-async def on_ready():
-    print(f'We have logged in as {client.user}')
-
-    # シングルトンのためのロックを解放する
-    release_lock()
-
-# Discordに接続する
-client.run(discord_token)
+                print
