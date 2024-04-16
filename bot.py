@@ -48,8 +48,16 @@ async def send_message():
     async def get_data(username, password):
         # Basic認証のヘッダーを作成
         headers = {'Authorization': 'Basic ' + base64.b64encode(f"{username}:{password}".encode()).decode()}
-        response = requests.get('https://yukibbs-server.onrender.com/bbs/admin', headers=headers)
-        return response.json()
+        for _ in range(3):  # 最大3回までリトライ
+            try:
+                response = requests.get('https://yukibbs-server.onrender.com/bbs/admin', headers=headers)
+                response.raise_for_status()  # エラーレスポンスの場合は例外を発生させる
+                return response.json()
+            except requests.exceptions.RequestException as e:
+                print("Error making request:", e)
+                await asyncio.sleep(5)  # リトライまでの待機時間
+
+        return None
 
     async def main():
         username = 'admin'
@@ -59,7 +67,7 @@ async def send_message():
         while True:
             data = await get_data(username, password)
 
-            if 'main' in data:
+            if data and 'main' in data:
                 main_section = data['main']
                 if main_section and len(main_section) > 0:
                     current_number = int(main_section[0]['number'])
@@ -80,7 +88,7 @@ async def send_message():
 
     await main()
 
-# Discordに接続する
+# ボットが起動したときのイベントハンドラ
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
