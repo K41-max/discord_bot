@@ -55,7 +55,7 @@ async def send_message():
                 return response.json()
             except requests.exceptions.RequestException as e:
                 print("Error making request:", e)
-                await asyncio.sleep(5)  # リトライまでの待機時間
+                await asyncio.sleep(20)  # リトライまでの待機時間
 
         return None
 
