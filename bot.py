@@ -55,7 +55,7 @@ async def send_message():
                 return response.json()
             except requests.exceptions.RequestException as e:
                 print("Error making request:", e)
-                await asyncio.sleep(20)  # リトライまでの待機時間
+                await asyncio.sleep(60)  # リトライまでの待機時間
 
         return None
 
@@ -84,7 +84,7 @@ async def send_message():
             else:
                 print("No 'main' section found in the response.")
 
-            await asyncio.sleep(1)
+            await asyncio.sleep(1.5)
 
     await main()
 
