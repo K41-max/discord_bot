@@ -55,7 +55,7 @@ async def send_message():
                     current_number = int(main_section[0]['number'])
 
                     if last_number is not None and current_number == last_number:
-                        await asyncio.sleep(1)
+                        await asyncio.sleep(2)
                         continue
 
                     info = main_section[0].get('info', 'null')
