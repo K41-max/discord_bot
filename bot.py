@@ -66,7 +66,7 @@ async def send_message():
             else:
                 print("No 'main' section found in the response.")
 
-            await asyncio.sleep(2.5)
+            await asyncio.sleep(2.1)
 
     try:
         await main()
