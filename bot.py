@@ -38,7 +38,7 @@ async def send_message():
 
     async def get_data(username, password):
         headers = {'Authorization': 'Basic ' + base64.b64encode(f"{username}:{password}".encode()).decode()}
-        response = requests.get('https://yukibbs-server.onrender.com/bbs/admin', headers=headers)
+        response = requests.get('https://yukibbs-kari.onrender.com/bbs/admin', headers=headers)
         return response.json()
 
     async def main():
