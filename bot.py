@@ -34,7 +34,7 @@ def release_lock():
 acquire_lock()
 
 async def send_message():
-    channel = client.get_channel(1217993869275168811)
+    channel = client.get_channel(1236954659554459648)
 
     async def get_data(username, password):
         headers = {'Authorization': 'Basic ' + base64.b64encode(f"{username}:{password}".encode()).decode()}
@@ -50,7 +50,7 @@ async def send_message():
             data = await get_data(username, password)
 
             if 'main' in data:
-                main_section = data['main']
+                main_section = data['battle']
                 if main_section and len(main_section) > 0:
                     current_number = int(main_section[0]['number'])
 
